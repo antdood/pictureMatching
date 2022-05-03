@@ -1,4 +1,5 @@
 from PIL import Image
+from numpy.linalg import norm
 
 max_colour_scale = 255
 bucket_count = 10
@@ -32,5 +33,13 @@ def get_bucket_index(value, bucket_boundaries):
 		if value < boundary:
 			return index
 	return 0
+
+def normalize_buckets(buckets):
+	return [bucket / norm(bucket) for bucket in buckets]
 	
-print(generate_rgb_bucket_allocation(pixel_values, generate_bucket_boundaries(max_colour_scale, bucket_count)))
+buckets = generate_rgb_bucket_allocation(pixel_values, generate_bucket_boundaries(max_colour_scale, bucket_count))
+nbuckets = normalize_buckets(buckets)
+
+for nbucket in nbuckets:
+	print(nbucket)
+	
