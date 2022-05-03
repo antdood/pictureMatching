@@ -1,12 +1,13 @@
 from PIL import Image
+
 from numpy.linalg import norm
+from numpy import square, subtract
 
 max_colour_scale = 255
 bucket_count = 10
 
-im = Image.open("image.jpg", 'r')
-width, height = im.size
-pixel_values = list(im.getdata())
+image_path_1 = "image.jpg"
+image_path_2 = "image2.jpg"
 
 def generate_bucket_boundaries(max_scale, bucket_count):
 	leftover_digits_after_bucket_allocation = max_scale % bucket_count
@@ -36,10 +37,22 @@ def get_bucket_index(value, bucket_boundaries):
 
 def normalize_buckets(buckets):
 	return [bucket / norm(bucket) for bucket in buckets]
-	
-buckets = generate_rgb_bucket_allocation(pixel_values, generate_bucket_boundaries(max_colour_scale, bucket_count))
-nbuckets = normalize_buckets(buckets)
 
-for nbucket in nbuckets:
-	print(nbucket)
+def convert_image_to_pixels(image_path):
+	image = Image.open(image_path, 'r')
+	return image.getdata()
+
+def get_bucket_error(buckets1, buckets2):
+	errors = []
+	for bucket1, bucket2 in zip(buckets1, buckets2):
+		mean_squared_error = square(subtract(bucket1, bucket2)).mean()
+		errors.append(mean_squared_error)
+
+	return errors
+
 	
+normalized_buckets1 = normalize_buckets(generate_rgb_bucket_allocation(convert_image_to_pixels(image_path_1), generate_bucket_boundaries(max_colour_scale, bucket_count)))
+normalized_buckets2 = normalize_buckets(generate_rgb_bucket_allocation(convert_image_to_pixels(image_path_2), generate_bucket_boundaries(max_colour_scale, bucket_count)))
+
+print(get_bucket_error(normalized_buckets1, normalized_buckets2))
+
