@@ -48,11 +48,18 @@ def get_bucket_error(buckets1, buckets2):
 		mean_squared_error = square(subtract(bucket1, bucket2)).mean()
 		errors.append(mean_squared_error)
 
-	return errors
+	return sum(errors)
 
-	
-normalized_buckets1 = normalize_buckets(generate_rgb_bucket_allocation(convert_image_to_pixels(image_path_1), generate_bucket_boundaries(max_colour_scale, bucket_count)))
-normalized_buckets2 = normalize_buckets(generate_rgb_bucket_allocation(convert_image_to_pixels(image_path_2), generate_bucket_boundaries(max_colour_scale, bucket_count)))
+def get_image_error(image_path_1, image_path_2):
+	bucket_boundaries = generate_bucket_boundaries(max_colour_scale, bucket_count)
 
-print(get_bucket_error(normalized_buckets1, normalized_buckets2))
+	pixels_1 = convert_image_to_pixels(image_path_1)
+	pixels_2 = convert_image_to_pixels(image_path_2)
+
+	normalized_buckets_1 = normalize_buckets(generate_rgb_bucket_allocation(pixels_1, bucket_boundaries))
+	normalized_buckets_2 = normalize_buckets(generate_rgb_bucket_allocation(pixels_2, bucket_boundaries))
+
+	return get_bucket_error(normalized_buckets_1, normalized_buckets_2)
+
+print(get_image_error(image_path_1, image_path_2))
 
