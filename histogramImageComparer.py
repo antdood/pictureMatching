@@ -6,8 +6,10 @@ from numpy import square, subtract
 max_colour_scale = 255
 bucket_count = 10
 
+error_threshold = 0.04
+
 image_path_1 = "image.jpg"
-image_path_2 = "image2.jpg"
+image_path_2 = "imageCropped.jpg"
 
 def generate_bucket_boundaries(max_scale, bucket_count):
 	leftover_digits_after_bucket_allocation = max_scale % bucket_count
@@ -61,5 +63,8 @@ def get_image_error(image_path_1, image_path_2):
 
 	return get_bucket_error(normalized_buckets_1, normalized_buckets_2)
 
-print(get_image_error(image_path_1, image_path_2))
+def isSimilar(image_path_1, image_path_2)
+	return get_image_error < error_threshold
+
+print(isSimilar(image_path_1, image_path_2))
 
