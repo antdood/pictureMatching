@@ -1,6 +1,6 @@
 # pictureMatching
 
-Given a folder, finds visually similar images and sorts them into subfolders. Complexity seems to be roughly n * 1.005^n.
+Given a folder, finds visually similar images and sorts them into subfolders. Time seems to scale with file size much more substantially than file count at a rate of 4.7s/mb.
 
 Uses basic histogram matching of colours. Variables can be tweaked in histogramImageComparer.py but I've found these to be most successful in my limited testing. Seems to be quite robust against upscaled/downscaled images as well. 
 
