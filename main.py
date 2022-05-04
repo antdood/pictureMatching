@@ -1,6 +1,8 @@
 import pathlib
 from histogramImageComparer import isSimilar
 import itertools
+import os
+from collections import defaultdict
 
 image_folder_name = "images"
 
@@ -11,15 +13,31 @@ images = p.glob(f'**/{image_folder_name}/*')
 def generate_matching_pairs(images):
 	image_combinations = itertools.combinations(images, 2)
 
-	matched_images = {}
+	matched_images = defaultdict(list)
 
 	for combination in image_combinations:
-		if (combination[0] in matched_images) or (combination[1] in matched_images):
+		if is_image_already_matched(combination[0], matched_images) or is_image_already_matched(combination[1], matched_images):
 			continue
 
 		if isSimilar(*combination):
-			matched_images[combination[1]] = combination[0]
+			matched_images[combination[0]].append(combination[1])
 
 	return matched_images
 
+def create_grouped_folders(groups):
+	for group in groups:
+		os.mkdir(f"{image_folder_name}/{group.name.removesuffix(group.suffix)}")
+		
+def is_image_already_matched(image, groups):
+	for group in groups.values():
+		if image in group:
+			return True
 
+	return False
+
+def move_images_into_group_folders(groups):
+	pass
+
+		
+matches = generate_matching_pairs(images)
+create_grouped_folders(matches)
