@@ -7,7 +7,7 @@ from numpy import square, subtract
 max_colour_scale = 255
 bucket_count = 10
 
-error_threshold = 0.04
+error_threshold = 0.01
 
 image_path_1 = "image.jpg"
 image_path_2 = "imageCropped.jpg"

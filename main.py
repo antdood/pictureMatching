@@ -3,6 +3,7 @@ from histogramImageComparer import isSimilar
 import itertools
 import os
 from collections import defaultdict
+import time
 
 image_folder_name = "images"
 
@@ -41,7 +42,13 @@ def move_images_into_group_folders(groups):
 		for image in matches:
 			os.replace(image, f"{image_folder_name}/{group.name.removesuffix(group.suffix)}/{image.name}")
 
-		
+
+start = time.time()
+
 matches = generate_matching_pairs(images)
 create_grouped_folders(matches)
 move_images_into_group_folders(matches)
+
+end = time.time()
+
+print(f"done in {end - start} seconds")
