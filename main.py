@@ -36,8 +36,12 @@ def is_image_already_matched(image, groups):
 	return False
 
 def move_images_into_group_folders(groups):
-	pass
+	for group, matches in groups.items():
+		os.replace(group, f"{image_folder_name}/{group.name.removesuffix(group.suffix)}/{group.name}")
+		for image in matches:
+			os.replace(image, f"{image_folder_name}/{group.name.removesuffix(group.suffix)}/{image.name}")
 
 		
 matches = generate_matching_pairs(images)
 create_grouped_folders(matches)
+move_images_into_group_folders(matches)
