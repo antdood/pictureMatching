@@ -9,9 +9,6 @@ bucket_count = 10
 
 error_threshold = 0.001
 
-image_path_1 = "image.jpg"
-image_path_2 = "imageCropped.jpg"
-
 cached_buckets = {}
 
 @cache

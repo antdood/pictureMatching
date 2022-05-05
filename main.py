@@ -5,7 +5,7 @@ import os
 from collections import defaultdict
 import time
 
-image_folder_name = "imagestest"
+image_folder_name = "images"
 
 p = pathlib.Path('.')
 
